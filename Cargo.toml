@@ -1,0 +1,14 @@
+[workspace]
+members = ["crates/*"]
+default-members = ["crates/nought-cli"]
+resolver = "2"
+
+[workspace.package]
+version = "0.1.0"
+rust-version = "1.71.0"
+authors = ["EvanLuo42"]
+edition = "2021"
+
+[workspace.dependencies]
+nought = { path = "crates/nought" }
+nought-cli = { path = "crates/nought-cli" }

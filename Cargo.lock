@@ -5,3 +5,7 @@ version = 3
 [[package]]
 name = "nought"
 version = "0.1.0"
+
+[[package]]
+name = "nought-cli"
+version = "0.1.0"
