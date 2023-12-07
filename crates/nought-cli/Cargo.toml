@@ -9,3 +9,4 @@ authors = ["EvanLuo42"]
 
 [dependencies]
 clap = { version = "4.4.11", features = ["derive", "cargo"] }
+colored = "2.0.4"
