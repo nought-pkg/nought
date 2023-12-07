@@ -2,6 +2,7 @@ use clap::{Parser, Subcommand};
 
 fn main() {
     let args = Args::parse();
+    println!("{}", env!("CARGO_PKG_VERSION"));
 
     match args.command {
         Commands::Install { .. } => {}
