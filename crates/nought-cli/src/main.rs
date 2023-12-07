@@ -1,47 +1,17 @@
-use clap::{Parser, Subcommand};
+mod commands;
+mod errors;
+mod commands_config;
+
+use clap::{Parser, Subcommand, CommandFactory};
+use crate::commands_config::{Args, Commands};
 
 fn main() {
     let args = Args::parse();
-    println!("{}", env!("CARGO_PKG_VERSION"));
 
-    match args.command {
-        Commands::Install { .. } => {}
-        Commands::Sync => {}
-        Commands::Upgrade { .. } => {}
-        Commands::Search { .. } => {}
-    }
-}
-
-#[derive(Parser)]
-#[command(
-    bin_name = "nought",
-    author = env!("CARGO_PKG_AUTHORS"),
-    version = env!("CARGO_PKG_VERSION"),
-    about = env!("CARGO_PKG_DESCRIPTION"),
-    long_about = None,
-)]
-struct Args {
-    #[command(subcommand)]
-    command: Commands
-}
-
-#[derive(Subcommand)]
-enum Commands {
-    /// Install a package with package name
-    Install {
-        /// Package Name
-        pkg_name: String
-    },
-    /// Sync packages index from the source
-    Sync,
-    /// Upgrade a package
-    Upgrade {
-        /// Package Name
-        pkg_name: Option<String>
-    },
-    /// Search a package with package name
-    Search {
-        /// Package Name
-        pkg_name: String
+    match args.commands {
+        Commands::Install { pkg_name } => commands::install(pkg_name),
+        Commands::Sync => commands::sync(),
+        Commands::Upgrade { pkg_name } => commands::upgrade(pkg_name),
+        Commands::Search { pkg_name } => commands::search(pkg_name)
     }
 }
