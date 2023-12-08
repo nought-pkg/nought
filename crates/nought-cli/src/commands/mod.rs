@@ -1,4 +1,3 @@
-use clap::error::ErrorFormatter;
 use crate::commands::search::_search;
 
 mod install;
@@ -9,8 +8,10 @@ pub(crate) fn install(pkg_name: String) {
 }
 
 #[inline]
-pub(crate) fn search(pkg_name: String) {
-    _search(pkg_name)
+pub(crate) async fn search(api_sources: Vec<String>, pkg_name: &String) {
+    for api_source in api_sources {
+        _search(api_source, pkg_name).await;
+    }
 }
 
 #[inline]
