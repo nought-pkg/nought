@@ -1,15 +1,16 @@
+use clap::Error;
 use colored::Colorize;
 use nought::models::search_models::PackageResponse;
 use nought::networks::search_apis::search_package_by_name;
 use crate::errors::common_errors::{deserialize_error, network_error};
 
-pub(crate) async fn _search(api_source: String, pkg_name: &String) {
+pub(crate) async fn _search(api_source: String, pkg_name: &String) -> Result<(), Error> {
     let packages: Vec<PackageResponse> = search_package_by_name(api_source, pkg_name)
         .await
-        .unwrap_or_else(|_| network_error().exit())
+        .map_err(|_| network_error())
         .json()
         .await
-        .unwrap_or_else(|_| deserialize_error().exit());
+        .map_err(|_| deserialize_error());
     packages.iter().for_each(|package| {
         let package = package.clone();
         println!("{}",
@@ -20,7 +21,9 @@ pub(crate) async fn _search(api_source: String, pkg_name: &String) {
                      package.pkg_description.unwrap_or("".to_string())
                  )
         )
-    })
+    });
+
+    Ok(())
 }
 
 fn search_entry(
