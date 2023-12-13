@@ -7,10 +7,10 @@ use crate::errors::common_errors::{deserialize_error, network_error};
 pub(crate) async fn _search(api_source: String, pkg_name: &String) -> Result<(), Error> {
     let packages: Vec<PackageResponse> = search_package_by_name(api_source, pkg_name)
         .await
-        .map_err(|_| network_error())
+        .map_err(|_| network_error())?
         .json()
         .await
-        .map_err(|_| deserialize_error());
+        .map_err(|_| deserialize_error())?;
     packages.iter().for_each(|package| {
         let package = package.clone();
         println!("{}",
