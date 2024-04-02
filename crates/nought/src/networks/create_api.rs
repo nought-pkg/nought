@@ -1,5 +1,4 @@
 use std::env;
-use std::error::Error;
 use std::fmt::Write;
 
 use colored::Colorize;
@@ -11,9 +10,8 @@ use tokio::io::{AsyncWriteExt, BufWriter};
 
 use crate::errors::common_errors::NetworkError;
 use crate::errors::create_errors::{ConfigSerializeFailed, CreateServerDirectoryFailed, VersionNotFound};
-use crate::proto::config_proto::Config;
-
 use crate::networks::Result;
+use crate::proto::config_proto::Config;
 
 pub async fn download_spigot_core(path: String, version: String) -> Result<()> {
     let download_url = format!("https://download.getbukkit.org/spigot/spigot-{}.jar", version);
