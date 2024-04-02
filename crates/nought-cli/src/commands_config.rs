@@ -18,6 +18,7 @@ pub(crate) enum Commands {
     /// Create a server from a platform
     Create {
         platform: String,
+        version: String,
         dir_name: String
     },
     /// Install a plugin to a server

@@ -13,3 +13,4 @@ reqwest = { workspace = true, features = ["stream"] }
 futures-util = "0.3.29"
 indicatif = "0.17.8"
 colored = "2.1.0"
+log = "0.4.21"

@@ -12,7 +12,8 @@ async fn main() {
     let args = Args::parse();
 
     match args.commands {
-        Commands::Create { platform, dir_name } => create(platform, dir_name).await,
+        Commands::Create { platform, dir_name, version } =>
+            create(platform, dir_name, version).await,
         Commands::Install { plugin_name } => {}
     }
 }
