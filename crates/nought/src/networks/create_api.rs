@@ -1,15 +1,16 @@
 use std::fmt::Write;
+use std::hash::Hasher;
 use colored::Colorize;
 use futures_util::StreamExt;
 use indicatif::{ProgressBar, ProgressState, ProgressStyle};
 
-use tokio::fs::File;
-use tokio::io::AsyncWriteExt;
+use tokio::fs::{File, OpenOptions};
+use tokio::io::{AsyncWriteExt, BufWriter};
+use crate::proto::config_proto::Config;
 
 type Result<T> = std::result::Result<T, Box<dyn std::error::Error + Send + Sync>>;
 
 pub async fn download_spigot_core(path: String, version: String) -> Result<()> {
-    println!("{}", "Connecting to spigot...".blue());
     let response = reqwest::get(format!("https://download.getbukkit.org/spigot/spigot-{}.jar", version))
         .await?;
     let content_length = response.content_length().unwrap_or(0);
@@ -29,5 +30,21 @@ pub async fn download_spigot_core(path: String, version: String) -> Result<()> {
     }
 
     file.flush().await?;
+    Ok(())
+}
+
+pub async fn create_config(path: String, name: String) -> Result<()> {
+    tokio::fs::create_dir(format!("{}/.nought", path)).await?;
+    let file = OpenOptions::new()
+        .create(true)
+        .write(true)
+        .open(format!("{}/.nought/config.toml", path))
+        .await?;
+    let config = toml::to_string(&Config {
+        name
+    })?;
+    let mut writer = BufWriter::new(file);
+    writer.write(config.as_bytes()).await?;
+    writer.flush().await?;
     Ok(())
 }

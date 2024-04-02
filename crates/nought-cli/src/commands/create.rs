@@ -2,9 +2,9 @@ use std::str::FromStr;
 
 use clap::Error;
 
-use nought::networks::create_api::download_spigot_core;
+use nought::networks::create_api::{create_config, download_spigot_core};
 
-use crate::errors::create_errors::{create_core_file_error, dir_already_exist_error, unsupported_platform_error};
+use crate::errors::create_errors::{create_config_error, create_core_file_error, dir_already_exist_error, unsupported_platform_error};
 
 pub(crate) async fn create(platform: String, dir_name: String) {
     tokio::fs::create_dir(format!("./{}", dir_name))
@@ -19,6 +19,9 @@ pub(crate) async fn create(platform: String, dir_name: String) {
             download_spigot_core(format!("./{}", dir_name), "1.20.4".to_string())
                 .await
                 .unwrap_or_else(|_| create_core_file_error().exit());
+            create_config(format!("./{}", dir_name), dir_name)
+                .await
+                .unwrap_or_else(|_| create_config_error().exit())
         }
     }
 }
