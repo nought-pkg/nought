@@ -9,4 +9,7 @@ edition = "2021"
 serde = { workspace = true }
 toml = { workspace = true }
 tokio = { workspace = true }
-reqwest = { workspace = true }
+reqwest = { workspace = true, features = ["stream"] }
+futures-util = "0.3.29"
+indicatif = "0.17.8"
+colored = "2.1.0"

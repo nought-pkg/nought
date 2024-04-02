@@ -15,21 +15,13 @@ pub(crate) struct Args {
 
 #[derive(Subcommand)]
 pub(crate) enum Commands {
-    /// Install a package with package name
+    /// Create a server from a platform
+    Create {
+        platform: String,
+        dir_name: String
+    },
+    /// Install a plugin to a server
     Install {
-        /// Package Name
-        pkg_name: String
-    },
-    /// Sync packages index from the source
-    Sync,
-    /// Upgrade a package
-    Upgrade {
-        /// Package Name
-        pkg_name: Option<String>
-    },
-    /// Search a package with package name
-    Search {
-        /// Package Name
-        pkg_name: String
+        plugin_name: String,
     }
 }

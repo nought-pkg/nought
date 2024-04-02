@@ -15,7 +15,6 @@ nought = { path = "crates/nought" }
 nought-cli = { path = "crates/nought-cli" }
 toml = "0.8.8"
 serde = { version = "1.0.193", features = ["derive"] }
-diesel = { version = "2.1.0", features = ["sqlite"] }
 dotenvy = "0.15"
-reqwest = { version = "0.11.22", features = ["json"] }
+reqwest = { version = "0.12.2", features = ["json"] }
 tokio = { version = "1", features = ["full"] }
