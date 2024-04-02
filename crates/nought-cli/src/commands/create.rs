@@ -4,25 +4,21 @@ use clap::Error;
 use clap::error::ErrorKind::Io;
 
 use nought::networks::create_api::{create_config, download_spigot_core};
-
 use crate::errors::build_error;
 
-pub(crate) async fn create(platform: String, dir_name: String, version: String) {
+pub(crate) async fn create(platform: String, dir_name: String, version: String) -> nought::networks::Result<()> {
     tokio::fs::create_dir(format!("./{}", dir_name))
-        .await
-        .unwrap_or_else(|err| build_error(Io, err.to_string()).exit());
+        .await?;
 
-    let platform = platform.parse::<Platform>()
-        .unwrap_or_else(|err| err.exit());
+    let platform = platform.parse::<Platform>()?;
 
     match platform {
         Platform::Spigot => {
             download_spigot_core(format!("./{}", dir_name), version)
-                .await
-                .unwrap_or_else(|err| build_error(Io, err.to_string()).exit());
+                .await?;
             create_config(format!("./{}", dir_name), dir_name)
-                .await
-                .unwrap_or_else(|err| build_error(Io, err.to_string()).exit())
+                .await?;
+            Ok(())
         }
     }
 }

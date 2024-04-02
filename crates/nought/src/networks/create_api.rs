@@ -13,7 +13,7 @@ use crate::errors::common_errors::NetworkError;
 use crate::errors::create_errors::{ConfigSerializeFailed, CreateServerDirectoryFailed, VersionNotFound};
 use crate::proto::config_proto::Config;
 
-type Result<T> = std::result::Result<T, Box<dyn Error + Send + Sync>>;
+use crate::networks::Result;
 
 pub async fn download_spigot_core(path: String, version: String) -> Result<()> {
     let download_url = format!("https://download.getbukkit.org/spigot/spigot-{}.jar", version);
